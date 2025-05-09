@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #fff);
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2980b9;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #2980b9;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f2f9ff;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+
+        .actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .actions a {
+            display: inline-block;
+            margin: 0 12px;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .actions a.logout {
+            background-color: #e74c3c;
+        }
+
+        .actions a:hover {
+            opacity: 0.85;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            tr {
+                margin-bottom: 15px;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                padding: 12px;
+            }
+
+            td {
+                text-align: right;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                font-weight: bold;
+                color: #555;
+                text-align: left;
+            }
+
+            th {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Your Diabetes Assessment History</h1>
+
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Prediction Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in results %}
+            <tr data-url="{{ url_for('view_result_detail', id=record.id) }}">
+                <td data-label="Date">{{ record.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td data-label="Prediction Result">{{ record.prediction_result }}</td>
+            </tr>
+            
+            
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="actions">
+        <a href="{{ url_for('index') }}">Assess Diabetes</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+</div>
+
+<script>
+    // Event delegation for handling row clicks
+    document.getElementById('results-table').addEventListener('click', function(event) {
+        var row = event.target.closest('tr');
+        if (row && row.dataset.url) {
+            window.location.href = row.dataset.url;
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diabetes Risk Assessment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h2>Check Your Diabetes Risk</h2>
+    <form method="POST" action="{{ url_for('predict') }}">
+        <label>Age:</label><input type="number" name="Age" step="any" required><br>
+        <label>Gender:</label>
+        <select name="Gender">
+            <option>Male</option>
+            <option>Female</option>
+        </select><br>
+        <label>BMI:</label><input type="number" name="BMI" step="any" required><br>
+        <label>Blood Pressure:</label><input type="number" name="BloodPressure" step="any" required><br>
+        <label>Glucose:</label><input type="number" name="Glucose" step="any" required><br>
+
+        <label>Family History (0 = No, 1 = Yes):</label>
+        <input type="number" name="FamilyHistory" min="0" max="1" required><br>
+
+        <label>Past High Blood Sugar (0 = No, 1 = Yes):</label>
+        <input type="number" name="PastHighBloodSugar" min="0" max="1" required><br>
+
+        <label>Hypertension (0 = No, 1 = Yes):</label>
+        <input type="number" name="Hypertension" min="0" max="1" required><br>
+
+        <label>Gestational Diabetes (0 = No, 1 = Yes):</label>
+        <input type="number" name="GestationalDiabetes" min="0" max="1" required><br>
+
+        <label>PCOS (0 = No, 1 = Yes):</label>
+        <input type="number" name="PCOS" min="0" max="1" required><br>
+
+        <label>Physical Activity:</label>
+        <select name="PhysicalActivity">
+            <option>Low</option>
+            <option>Moderate</option>
+            <option>High</option>
+        </select><br>
+
+        <label>Smoking Status (0 = No, 1 = Yes):</label>
+        <input type="number" name="Smoking" min="0" max="1" required><br>
+
+        <label>Alcohol Consumption (0 = No, 1 = Yes):</label>
+        <input type="number" name="Alcohol" min="0" max="1" required><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+    <a href="{{ url_for('logout') }}">Log Out</a>
+
+    {% if result %}
+        <h3>Prediction Result: {{ result }}</h3>
+    {% endif %}
+</body>
+</html>

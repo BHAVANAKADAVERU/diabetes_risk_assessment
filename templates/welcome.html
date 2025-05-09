@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Diabetes Risk Assessment</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+            text-align: center;
+        }
+
+        .welcome-container {
+            max-width: 600px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .button:focus {
+            outline: none;
+        }
+
+        @media (max-width: 600px) {
+            .button {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>Welcome to the Diabetes Risk Assessment Page!</h1>
+        <p>This platform helps you assess the risk of diabetes based on key health factors such as age, gender, BMI, blood pressure, glucose levels, and family history.</p>
+        <p>Once you've assessed your risk, you can view the results in your history and track any changes over time. The system also keeps your data secure and helps you understand your health better.</p>
+        <p>Get started by logging in or signing up below:</p>
+    </div>
+
+    <div class="actions">
+        <a href="{{ url_for('try_assessment') }}" class="button">Try Assessment</a>
+        <a href="{{ url_for('login') }}" class="button">Login</a>
+        <a href="{{ url_for('signup') }}" class="button">Sign Up</a>
+    </div>
+</body>
+</html>

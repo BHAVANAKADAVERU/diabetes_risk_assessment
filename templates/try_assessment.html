@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diabetes Risk Assessment - Try Assessment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Try Your Diabetes Risk Assessment</h2>
+    <form method="POST" action="{{ url_for('try_assessment') }}">
+        <label for="Age">Age:</label>
+        <input type="number" id="Age" name="Age" step="any" required><br>
+
+        <label for="Gender">Gender:</label>
+        <select id="Gender" name="Gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br>
+
+        <label for="BMI">BMI:</label>
+        <input type="number" id="BMI" name="BMI" step="any" required><br>
+
+        <label for="BloodPressure">Blood Pressure:</label>
+        <input type="number" id="BloodPressure" name="BloodPressure" step="any" required><br>
+
+        <label for="Glucose">Glucose:</label>
+        <input type="number" id="Glucose" name="Glucose" step="any" required><br>
+
+        <label for="FamilyHistory">Family History (0 = No, 1 = Yes):</label>
+        <input type="number" id="FamilyHistory" name="FamilyHistory" min="0" max="1" required><br>
+
+        <label for="PastHighBloodSugar">Past High Blood Sugar (0 = No, 1 = Yes):</label>
+        <input type="number" id="PastHighBloodSugar" name="PastHighBloodSugar" min="0" max="1" required><br>
+
+        <label for="Hypertension">Hypertension (0 = No, 1 = Yes):</label>
+        <input type="number" id="Hypertension" name="Hypertension" min="0" max="1" required><br>
+
+        <label for="GestationalDiabetes">Gestational Diabetes (0 = No, 1 = Yes):</label>
+        <input type="number" id="GestationalDiabetes" name="GestationalDiabetes" min="0" max="1" required><br>
+
+        <label for="PCOS">PCOS (0 = No, 1 = Yes):</label>
+        <input type="number" id="PCOS" name="PCOS" min="0" max="1" required><br>
+
+        <label for="PhysicalActivity">Physical Activity:</label>
+        <select id="PhysicalActivity" name="PhysicalActivity" required>
+            <option value="Low">Low</option>
+            <option value="Moderate">Moderate</option>
+            <option value="High">High</option>
+        </select><br>
+
+        <label for="Smoking">Smoking Status (0 = No, 1 = Yes):</label>
+        <input type="number" id="Smoking" name="Smoking" min="0" max="1" required><br>
+
+        <label for="Alcohol">Alcohol Consumption (0 = No, 1 = Yes):</label>
+        <input type="number" id="Alcohol" name="Alcohol" min="0" max="1" required><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+    
+    {% if result %}
+        <h3>Prediction Result: {{ result }}</h3>
+    {% endif %}
+</body>
+</html>

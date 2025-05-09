@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .dashboard {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard:hover {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        .button {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 6px;
+            text-align: center;
+            display: block;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: translateY(-4px);
+        }
+
+        .logout {
+            background-color: #e74c3c;
+        }
+
+        .logout:hover {
+            background-color: #c0392b;
+            transform: translateY(-4px);
+        }
+
+        .button:focus {
+            outline: none;
+        }
+
+        /* For responsiveness */
+        @media (max-width: 600px) {
+            .dashboard {
+                padding: 20px;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h2>Welcome, {{ username }}!</h2>
+        <a href="{{ url_for('index') }}" class="button">Assess Diabetes</a>
+        <a href="{{ url_for('results_history') }}" class="button">View History</a>
+        <a href="{{ url_for('logout') }}" class="button logout">Logout</a>
+    </div>
+</body>
+</html>

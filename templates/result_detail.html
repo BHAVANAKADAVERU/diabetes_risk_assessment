@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            padding: 40px;
+        }
+        .card {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .field {
+            margin-bottom: 12px;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .value {
+            float: right;
+        }
+        a.back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Form Details - {{ record.date.strftime('%Y-%m-%d %H:%M') }}</h2>
+        <div class="field"><span class="label">Age:</span> <span class="value">{{ record.age }}</span></div>
+        <div class="field"><span class="label">Gender:</span> <span class="value">{{ record.gender }}</span></div>
+        <div class="field"><span class="label">BMI:</span> <span class="value">{{ record.bmi }}</span></div>
+        <div class="field"><span class="label">Blood Pressure:</span> <span class="value">{{ record.blood_pressure }}</span></div>
+        <div class="field"><span class="label">Glucose:</span> <span class="value">{{ record.glucose }}</span></div>
+        <div class="field"><span class="label">Family History:</span> <span class="value">{{ record.family_history }}</span></div>
+        <div class="field"><span class="label">Past High Blood Sugar:</span> <span class="value">{{ record.past_high_blood_sugar }}</span></div>
+        <div class="field"><span class="label">Hypertension:</span> <span class="value">{{ record.hypertension }}</span></div>
+        <div class="field"><span class="label">Gestational Diabetes:</span> <span class="value">{{ record.gestational_diabetes }}</span></div>
+        <div class="field"><span class="label">PCOS:</span> <span class="value">{{ record.pcos }}</span></div>
+        <div class="field"><span class="label">Physical Activity:</span> <span class="value">{{ record.physical_activity }}</span></div>
+        <div class="field"><span class="label">Smoking:</span> <span class="value">{{ record.smoking }}</span></div>
+        <div class="field"><span class="label">Alcohol:</span> <span class="value">{{ record.alcohol }}</span></div>
+        <div class="field"><span class="label">Prediction:</span> <span class="value">{{ record.prediction_result }}</span></div>
+        <!-- Add more fields as per your form -->
+        <a class="back-link" href="{{ url_for('results_history') }}">← Back to History</a>
+    </div>
+</body>
+</html>
