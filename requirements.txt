@@ -5,6 +5,7 @@ colorama==0.4.6
 comm==0.2.2
 debugpy==1.8.14
 decorator==5.2.1
+python-dotenv==1.0.0  
 executing==2.2.0
 Flask==3.1.0
 Flask-Login==0.6.3
