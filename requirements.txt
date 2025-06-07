@@ -25,11 +25,8 @@ jupyter_client==8.6.3
 jupyter_core==5.7.2
 MarkupSafe==3.0.2
 matplotlib-inline==0.1.7
-<<<<<<< HEAD
-=======
 mysql-connector-python==9.3.0
 mysqlclient==2.2.7
->>>>>>> de3f834 (Add new features)
 narwhals==1.38.1
 nest-asyncio==1.6.0
 numpy==2.2.5
