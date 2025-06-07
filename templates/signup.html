@@ -3,19 +3,101 @@
 <head>
     <title>Sign Up</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
+<<<<<<< HEAD
 </head>
 <body>
     <h2>Sign Up</h2>
     <form method="POST">
+=======
+    <script>
+        function validateSignupForm() {
+            const form = document.forms["signupForm"];
+            const username = form["username"].value.trim();
+            const password = form["password"].value.trim();
+            const confirmPassword = form["confirm_password"].value.trim();
+
+            const usernamePattern = /^[A-Za-z][A-Za-z0-9_]*$/;
+
+            if (username === "") {
+                alert("Username cannot be empty");
+                return false;
+            }
+
+            if (!usernamePattern.test(username)) {
+                alert("Username must start with a letter and contain only letters, numbers, or underscores.");
+                return false;
+            }
+
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+    <style>
+        ul.flashes {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+        ul.flashes li {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        ul.flashes li.danger {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+        ul.flashes li.success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+    </style>
+</head>
+<body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <h2>Sign Up</h2>
+    <form name="signupForm" method="POST" onsubmit="return validateSignupForm()">
+>>>>>>> de3f834 (Add new features)
         <label>Username:</label>
         <input type="text" name="username" required>
 
         <label>Password:</label>
         <input type="password" name="password" required>
 
+<<<<<<< HEAD
+=======
+        <label>Confirm Password:</label>
+        <input type="password" name="confirm_password" required>
+
+>>>>>>> de3f834 (Add new features)
         <input type="submit" value="Sign Up">
     </form>
 
     <a href="{{ url_for('login') }}">Already have an account? Login</a>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+>>>>>>> de3f834 (Add new features)

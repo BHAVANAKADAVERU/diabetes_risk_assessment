@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html>
 <head>
     <title>Login</title>
@@ -19,5 +20,77 @@
 
 <a href="{{ url_for('signup') }}">Don't have an account? Sign up</a>
 
+=======
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}" />
+    <script>
+        function validateLoginForm() {
+            const username = document.forms["loginForm"]["username"].value.trim();
+            const password = document.forms["loginForm"]["password"].value.trim();
+
+            if (username === "") {
+                alert("Username cannot be empty");
+                return false;
+            }
+            if (password === "") {
+                alert("Password cannot be empty");
+                return false;
+            }
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters");
+                return false;
+            }
+            return true; // form is valid
+        }
+    </script>
+    <style>
+        /* Basic styling for flash messages */
+        ul.flashes {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+        ul.flashes li {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        ul.flashes li.danger {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <h2>Login</h2>
+
+    <form name="loginForm" method="POST" onsubmit="return validateLoginForm()">
+        <label>Username:</label>
+        <input type="text" name="username" required />
+
+        <label>Password:</label>
+        <input type="password" name="password" required />
+
+        <input type="submit" value="Login" />
+    </form>
+
+    <a href="{{ url_for('signup') }}">Don't have an account? Sign up</a>
+>>>>>>> de3f834 (Add new features)
 </body>
 </html>
