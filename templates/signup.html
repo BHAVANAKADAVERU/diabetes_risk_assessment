@@ -3,12 +3,7 @@
 <head>
     <title>Sign Up</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
-<<<<<<< HEAD
-</head>
-<body>
-    <h2>Sign Up</h2>
-    <form method="POST">
-=======
+
     <script>
         function validateSignupForm() {
             const form = document.forms["signupForm"];
@@ -41,6 +36,7 @@
             return true;
         }
     </script>
+
     <style>
         ul.flashes {
             list-style-type: none;
@@ -79,25 +75,18 @@
 
     <h2>Sign Up</h2>
     <form name="signupForm" method="POST" onsubmit="return validateSignupForm()">
->>>>>>> de3f834 (Add new features)
         <label>Username:</label>
         <input type="text" name="username" required>
 
         <label>Password:</label>
         <input type="password" name="password" required>
 
-<<<<<<< HEAD
-=======
         <label>Confirm Password:</label>
         <input type="password" name="confirm_password" required>
 
->>>>>>> de3f834 (Add new features)
         <input type="submit" value="Sign Up">
     </form>
 
     <a href="{{ url_for('login') }}">Already have an account? Login</a>
 </body>
-<<<<<<< HEAD
 </html>
-=======
->>>>>>> de3f834 (Add new features)
