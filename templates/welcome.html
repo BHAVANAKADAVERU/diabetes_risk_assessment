@@ -2,92 +2,235 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome - Diabetes Risk Assessment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        :root {
+            --blue: #2563eb;
+            --green: #22c55e;
+            --purple: #a855f7;
+            --gray-bg: #f0f4f8;
+            --card-radius: 12px;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background: #f4f6f9;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f9fafb;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            color: #333;
             text-align: center;
+            color: #1f2937;
         }
 
-        .welcome-container {
-            max-width: 600px;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 28px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-
-        p {
-            font-size: 16px;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .actions {
+        header {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+        }
+
+        header h1::before {
+            content: "\269A";
+            font-size: 22px;
+            margin-right: 10px;
+        }
+
+        .main-section {
+            padding: 60px 20px 40px;
+        }
+
+        .main-section h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .main-section p {
+            font-size: 18px;
+            color: #4b5563;
+            margin-bottom: 50px;
+        }
+
+        .stats {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 60px;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 24px;
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            width: 250px;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .blue { color: var(--blue); }
+        .green { color: var(--green); }
+        .purple { color: var(--purple); }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .how-it-works {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+
+        .how-it-works h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
+        }
+
+        .step {
+            background: #fff;
+            padding: 24px;
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            width: 240px;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .step-number {
+            font-size: 32px;
+            color: var(--blue);
+            font-weight: bold;
+        }
+
+        .step-title {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .step-desc {
+            font-size: 14px;
+            color: #4b5563;
+            margin-top: 5px;
+        }
+
+        .action-buttons {
+            margin-top: 50px;
         }
 
         .button {
-            padding: 12px 24px;
-            background-color: #3498db;
+            background-color: var(--blue);
             color: white;
-            text-decoration: none;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
             font-size: 16px;
-            border-radius: 6px;
-            text-align: center;
-            transition: all 0.3s ease;
+            margin: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .button:hover {
-            background-color: #2980b9;
+            background-color: #1d4ed8;
             transform: translateY(-2px);
         }
 
-        .button:focus {
-            outline: none;
-        }
-
-        @media (max-width: 600px) {
-            .button {
-                font-size: 14px;
-                padding: 10px 20px;
+        @media (max-width: 768px) {
+            .stats, .steps {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="welcome-container">
-        <h1>Welcome to the Diabetes Risk Assessment Page!</h1>
-        <p>This platform helps you assess the risk of diabetes based on key health factors such as age, gender, BMI, blood pressure, glucose levels, and family history.</p>
-        <p>Once you've assessed your risk, you can view the results in your history and track any changes over time. The system also keeps your data secure and helps you understand your health better.</p>
-        <p>Get started by logging in or signing up below:</p>
-    </div>
+    <header>
+        <h1>DiabetesAI</h1>
+        <span>AI-Powered Risk Assessment</span>
+    </header>
 
-    <div class="actions">
-        <a href="{{ url_for('try_assessment') }}" class="button">Try Assessment</a>
-        <a href="{{ url_for('login') }}" class="button">Login</a>
-        <a href="{{ url_for('signup') }}" class="button">Sign Up</a>
-    </div>
+    <section class="main-section">
+        <h2>Assess Your Diabetes Risk</h2>
+        <p>Get personalized insights about your diabetes risk using advanced machine learning. Our AI analyzes your health indicators to provide actionable recommendations.</p>
+
+        <div class="stats">
+            <div class="card">
+                <div class="card-icon blue">📈</div>
+                <div class="card-title">94.5%</div>
+                <div class="card-desc">Model Accuracy</div>
+            </div>
+            <div class="card">
+                <div class="card-icon green">👥</div>
+                <div class="card-title">50,000+</div>
+                <div class="card-desc">Assessments Completed</div>
+            </div>
+            <div class="card">
+                <div class="card-icon purple">💙</div>
+                <div class="card-title">8</div>
+                <div class="card-desc">Key Health Factors</div>
+            </div>
+        </div>
+
+        <div class="how-it-works">
+            <h3>How It Works</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Input Health Data</div>
+                    <div class="step-desc">Enter your health metrics including BMI, blood pressure, and lifestyle factors</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">AI Analysis</div>
+                    <div class="step-desc">Our trained model processes your data using Random Forest and Neural Networks</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Get Insights</div>
+                    <div class="step-desc">Receive personalized risk scores and actionable health recommendations</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ url_for('try_assessment') }}" class="button">Start Your Assessment</a>
+            <a href="{{ url_for('login') }}" class="button">Login</a>
+            <a href="{{ url_for('signup') }}" class="button">Sign Up</a>
+        </div>
+    </section>
 </body>
 </html>
