@@ -1,63 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Diabetes Risk Assessment - Try Assessment</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8" />
+  <title>Diabetes Risk Assessment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    .step {
+      display: none;
+    }
+    .step.active {
+      display: block;
+    }
+    .navigation {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .navigation button {
+      padding: 10px 20px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .navigation button[disabled] {
+      background-color: #ccc;
+      cursor: default;
+    }
+    .field {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .progress {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress-bar {
+      height: 100%;
+      background-color: #2563eb;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+  </style>
 </head>
 <body>
-    <h2>Try Your Diabetes Risk Assessment</h2>
-    <form method="POST" action="{{ url_for('try_assessment') }}">
-        <label for="Age">Age:</label>
-        <input type="number" id="Age" name="Age" step="any" required><br>
 
-        <label for="Gender">Gender:</label>
-        <select id="Gender" name="Gender" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select><br>
+<div class="form-container">
+  <h2>Diabetes Risk Assessment</h2>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 
-        <label for="BMI">BMI:</label>
-        <input type="number" id="BMI" name="BMI" step="any" required><br>
-
-        <label for="BloodPressure">Blood Pressure:</label>
-        <input type="number" id="BloodPressure" name="BloodPressure" step="any" required><br>
-
-        <label for="Glucose">Glucose:</label>
-        <input type="number" id="Glucose" name="Glucose" step="any" required><br>
-
-        <label for="FamilyHistory">Family History (0 = No, 1 = Yes):</label>
-        <input type="number" id="FamilyHistory" name="FamilyHistory" min="0" max="1" required><br>
-
-        <label for="PastHighBloodSugar">Past High Blood Sugar (0 = No, 1 = Yes):</label>
-        <input type="number" id="PastHighBloodSugar" name="PastHighBloodSugar" min="0" max="1" required><br>
-
-        <label for="Hypertension">Hypertension (0 = No, 1 = Yes):</label>
-        <input type="number" id="Hypertension" name="Hypertension" min="0" max="1" required><br>
-
-        <label for="GestationalDiabetes">Gestational Diabetes (0 = No, 1 = Yes):</label>
-        <input type="number" id="GestationalDiabetes" name="GestationalDiabetes" min="0" max="1" required><br>
-
-        <label for="PCOS">PCOS (0 = No, 1 = Yes):</label>
-        <input type="number" id="PCOS" name="PCOS" min="0" max="1" required><br>
-
-        <label for="PhysicalActivity">Physical Activity:</label>
-        <select id="PhysicalActivity" name="PhysicalActivity" required>
-            <option value="Low">Low</option>
-            <option value="Moderate">Moderate</option>
-            <option value="High">High</option>
-        </select><br>
-
-        <label for="Smoking">Smoking Status (0 = No, 1 = Yes):</label>
-        <input type="number" id="Smoking" name="Smoking" min="0" max="1" required><br>
-
-        <label for="Alcohol">Alcohol Consumption (0 = No, 1 = Yes):</label>
-        <input type="number" id="Alcohol" name="Alcohol" min="0" max="1" required><br><br>
-
-        <input type="submit" value="Predict">
-    </form>
+  <form id="multiStepForm" method="POST" action="{{ url_for('try_assessment') }}">
     
-    {% if result %}
-        <h3>Prediction Result: {{ result }}</h3>
-    {% endif %}
+    <!-- Step 1 -->
+    <div class="step active">
+      <div class="field">
+        <label>Age:</label>
+        <input type="number" name="Age" required />
+      </div>
+      <div class="field">
+        <label>Gender:</label>
+        <select name="Gender" required>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Step 2: Height, Weight, BMI -->
+    <div class="step">
+      <div class="field">
+        <label>Height (cm):</label>
+        <input type="number" id="height" required />
+      </div>
+      <div class="field">
+        <label>Weight (kg):</label>
+        <input type="number" id="weight" required />
+      </div>
+      <div class="field">
+        <label>BMI:</label>
+        <input type="text" name="BMI" id="bmi" readonly required />
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="field">
+        <label>Blood Pressure:</label>
+        <input type="number" name="BloodPressure" required />
+      </div>
+      <div class="field">
+        <label>Glucose:</label>
+        <input type="number" name="Glucose" required />
+      </div>
+      <div class="field">
+        <label>Family History (0 = No, 1 = Yes):</label>
+        <input type="number" name="FamilyHistory" min="0" max="1" required />
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="field">
+        <label>Past High Blood Sugar (0 = No, 1 = Yes):</label>
+        <input type="number" name="PastHighBloodSugar" min="0" max="1" required />
+      </div>
+      <div class="field">
+        <label>Hypertension (0 = No, 1 = Yes):</label>
+        <input type="number" name="Hypertension" min="0" max="1" required />
+      </div>
+      <div class="field">
+        <label>Gestational Diabetes (0 = No, 1 = Yes):</label>
+        <input type="number" name="GestationalDiabetes" min="0" max="1" required />
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="field">
+        <label>PCOS (0 = No, 1 = Yes):</label>
+        <input type="number" name="PCOS" min="0" max="1" required />
+      </div>
+      <div class="field">
+        <label>Physical Activity:</label>
+        <select name="PhysicalActivity" required>
+          <option value="">Select</option>
+          <option>Low</option>
+          <option>Moderate</option>
+          <option>High</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Smoking Status (0 = No, 1 = Yes):</label>
+        <input type="number" name="Smoking" min="0" max="1" required />
+      </div>
+      <div class="field">
+        <label>Alcohol Consumption (0 = No, 1 = Yes):</label>
+        <input type="number" name="Alcohol" min="0" max="1" required />
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+      <button type="button" id="prevBtn" onclick="changeStep(-1)">Previous</button>
+      <button type="button" id="nextBtn" onclick="changeStep(1)">Next</button>
+    </div>
+
+    <!-- Final Submit -->
+    <div id="submitSection" style="display:none; text-align:center; margin-top: 20px;">
+      <input type="submit" value="Predict" style="padding:10px 30px; background:#10b981; color:white; border:none; border-radius:5px; font-size:16px;" />
+    </div>
+  </form>
+
+  {% if result %}
+    <h3 style="margin-top: 20px;">Prediction Result: {{ result }}</h3>
+  {% endif %}
+</div>
+
+<script>
+  let currentStep = 0;
+  const steps = document.querySelectorAll('.step');
+  const progressBar = document.getElementById('progressBar');
+  const submitSection = document.getElementById('submitSection');
+  const nextBtn = document.getElementById('nextBtn');
+
+  function showStep(step) {
+    steps.forEach((s, i) => s.classList.toggle('active', i === step));
+    document.getElementById('prevBtn').disabled = step === 0;
+    progressBar.style.width = `${((step + 1) / steps.length) * 100}%`;
+    nextBtn.style.display = step === steps.length - 1 ? "none" : "inline-block";
+    submitSection.style.display = step === steps.length - 1 ? "block" : "none";
+  }
+
+  function changeStep(n) {
+    if (n === 1 && !validateForm()) return;
+    currentStep += n;
+    if (currentStep >= steps.length) return;
+    showStep(currentStep);
+  }
+
+  function validateForm() {
+    const inputs = steps[currentStep].querySelectorAll('input, select');
+    for (let input of inputs) {
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // Auto-calculate BMI
+  document.getElementById('height').addEventListener('input', calcBMI);
+  document.getElementById('weight').addEventListener('input', calcBMI);
+  function calcBMI() {
+    const height = parseFloat(document.getElementById('height').value);
+    const weight = parseFloat(document.getElementById('weight').value);
+    if (height > 0 && weight > 0) {
+      const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+      document.getElementById('bmi').value = bmi;
+    } else {
+      document.getElementById('bmi').value = '';
+    }
+  }
+
+  showStep(currentStep);
+</script>
+
 </body>
 </html>
