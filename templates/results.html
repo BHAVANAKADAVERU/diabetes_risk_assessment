@@ -44,11 +44,6 @@
       text-align: center;
       padding: 40px 20px;
     }
-    .risk-summary h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
     .risk-score {
       font-size: 40px;
       color: #059669;
@@ -83,18 +78,14 @@
       font-size: 12px;
       font-weight: 600;
     }
-    .badge.high {
-      background-color: #fee2e2;
-      color: #b91c1c;
-    }
-    .badge.medium {
-      background-color: #fef3c7;
-      color: #92400e;
-    }
-    .badge.low {
-      background-color: #d1fae5;
-      color: #065f46;
-    }
+    .badge.high { background-color: #fee2e2; color: #b91c1c; }
+    .badge.medium { background-color: #fef3c7; color: #92400e; }
+    .badge.low { background-color: #d1fae5; color: #065f46; }
+    .badge.green { background-color: #d1fae5; color: #065f46; }
+    .badge.orange { background-color: #fef3c7; color: #92400e; }
+    .badge.blue { background-color: #dbeafe; color: #1e40af; }
+    .badge.violet { background-color: #ede9fe; color: #6b21a8; }
+
     .disclaimer {
       font-size: 13px;
       background-color: #fef3c7;
@@ -125,109 +116,164 @@
       background: #3b82f6;
       color: white;
     }
+
+    @media (max-width: 600px) {
+      .risk-score {
+        font-size: 28px;
+      }
+      .section-title {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
-<body>
+
+<body data-risk="{{ risk_percentage }}" data-level="{{ result }}">
+
   <div class="header">
     <h1>DiabetesAI</h1>
     <span style="font-size: 14px; color: #6b7280;">AI Powered Risk Assessment</span>
   </div>
+
   <div class="container">
 
+    <!-- Risk Summary -->
     <div class="card risk-summary">
       <h2>Your Diabetes Risk Assessment</h2>
-      <div class="risk-score">20%</div>
-      <div class="risk-level">Low Risk</div>
+      <p class="risk-score">{{ risk_percentage }}%</p>
+      <p class="risk-level">{{ result }}</p>
     </div>
 
-    <div class="grid">
-      <div class="card">
-        <div class="section-title">🔺 Key Risk Factors</div>
+    <!-- Risk Factors -->
+    <div class="card">
+      <div class="section-title">⚠️ Key Risk Factors</div>
+      {% if reasons %}
+        {% for reason in reasons %}
+          <div class="factor">
+            <span>{{ reason }}</span>
+            <span class="badge high">High</span>
+          </div>
+        {% endfor %}
+      {% else %}
         <div class="factor">
           <span>Excellent!</span>
           <span class="badge low">No major risk factors</span>
         </div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">📌 Personalized Recommendations</div>
-        <div class="recommendation">
-          <div>
-            <strong>Regular Health Checkups</strong>
-            <p style="font-size: 12px; color: #6b7280;">Schedule annual diabetes screening tests</p>
-          </div>
-          <span class="badge medium">Medium</span>
-        </div>
-        <div class="recommendation">
-          <div>
-            <strong>Healthy Diet</strong>
-            <p style="font-size: 12px; color: #6b7280;">Eat more whole grains and lean proteins</p>
-          </div>
-          <span class="badge medium">Medium</span>
-        </div>
-      </div>
+      {% endif %}
     </div>
 
+    <!-- Recommendations -->
+    <div class="card">
+      <div class="section-title">📌 Personalized Recommendations</div>
+      {% if suggestions %}
+        {% for suggestion in suggestions %}
+          <div class="recommendation">
+            <span>{{ suggestion }}</span>
+            <span class="badge medium">Medium</span>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="recommendation">
+          <span>No specific suggestions. Keep up the good work!</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Model Insights -->
     <div class="card">
       <div class="section-title">🔍 AI Model Insights</div>
-      <div class="grid" style="display: flex; justify-content: space-around;">
-        <div style="text-align: center;">
-          <div class="badge" style="background: #dbeafe; color: #1e40af;">RF</div>
+      <div style="display: flex; justify-content: space-around; text-align: center;">
+        <div>
+          <div class="badge blue">RF</div>
           <p><strong>Random Forest</strong></p>
           <p style="font-size: 12px; color: #6b7280;">Primary model for assessment</p>
         </div>
-        <div style="text-align: center;">
-          <div class="badge" style="background: #d1fae5; color: #065f46;">94.5%</div>
+        <div>
+          <div class="badge green">94.5%</div>
           <p><strong>Model Accuracy</strong></p>
           <p style="font-size: 12px; color: #6b7280;">Validated on clinical data</p>
         </div>
-        <div style="text-align: center;">
-          <div class="badge" style="background: #ede9fe; color: #6b21a8;">8</div>
+        <div>
+          <div class="badge violet">8</div>
           <p><strong>Features Analyzed</strong></p>
-          <p style="font-size: 12px; color: #6b7280;">Key health indicators</p>
+          <div style="font-size: 12px; color: #6b7280; text-align: left;">
+            <ul>
+              {% for feat, val in shap_explanation %}
+                <li>{{ feat }}: <strong>{{ "%.2f"|format(val) }}</strong></li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Disclaimer -->
     <div class="card">
       <div class="disclaimer">
         <strong>Important Disclaimer:</strong> This assessment is for educational purposes only and should not replace professional medical advice. Please consult your healthcare provider for accurate diabetes screening and prevention.
       </div>
     </div>
 
+    <!-- Actions -->
     <div class="actions">
-     <button class="btn btn-outline" onclick="location.href='/predict'">⟲ Take Assessment Again</button>
-     <button class="btn btn-primary" onclick="downloadPDF()">⬇ Download PDF Report</button>
-     <button class="btn btn-outline" onclick="location.href='/dashboard'">dashboard</button>
+      <button class="btn btn-outline" onclick="location.href='/predict'" aria-label="Retake Assessment">⟲ Take Assessment Again</button>
+      <button class="btn btn-primary" onclick="downloadPDF()" aria-label="Download PDF Report">⬇ Download PDF Report</button>
+      <button class="btn btn-outline" onclick="location.href='/dashboard'" aria-label="Go to Dashboard">🏠 Dashboard</button>
     </div>
 
+  </div>
 
- 
-    <script>
-    // PDF download function using jsPDF
+  <!-- Data for JS (PDF Export) -->
+  <script id="reasons-data" type="application/json">{{ reasons | tojson }}</script>
+  <script id="suggestions-data" type="application/json">{{ suggestions | tojson }}</script>
+  <script id="shap-data" type="application/json">{{ shap_explanation | tojson }}</script>
+
+  <script>
     function downloadPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
 
-        doc.setFontSize(18);
-        doc.text("Diabetes Risk Assessment Report", 20, 20);
+      const risk = document.body.dataset.risk;
+      const level = document.body.dataset.level;
 
-        doc.setFontSize(14);
-        doc.text("Risk Score: 20% (Low Risk)", 20, 40);
-        doc.text("Key Risk Factors: No major risk factors", 20, 55);
-        doc.text("Recommendations:", 20, 75);
-        doc.text("- Regular Health Checkups (Medium)", 25, 85);
-        doc.text("- Healthy Diet (Medium)", 25, 95);
-        doc.text("Model Accuracy: 94.5%", 20, 115);
-        doc.text("Model: Random Forest", 20, 125);
-        doc.text("Features Analyzed: 8", 20, 135);
+      const reasons = JSON.parse(document.getElementById('reasons-data').textContent);
+      const suggestions = JSON.parse(document.getElementById('suggestions-data').textContent);
+      const shap = JSON.parse(document.getElementById('shap-data').textContent);
 
-        doc.setFontSize(10);
-        doc.setTextColor(150);
-        doc.text("Disclaimer: This is not a medical diagnosis.", 20, 160);
+      doc.setFontSize(18);
+      doc.text("Diabetes Risk Assessment Report", 20, 20);
 
-        doc.save("Diabetes_Risk_Report.pdf");
+      doc.setFontSize(14);
+      doc.text(`Risk Score: ${risk}% (${level} Risk)`, 20, 40);
+
+      let y = 60;
+      doc.text("Key Risk Factors:", 20, y); y += 10;
+      reasons.forEach(reason => {
+        doc.text("- " + reason, 25, y); y += 10;
+      });
+
+      y += 10;
+      doc.text("Recommendations:", 20, y); y += 10;
+      suggestions.forEach(suggestion => {
+        doc.text("- " + suggestion, 25, y); y += 10;
+      });
+
+      y += 10;
+      doc.text("Model Accuracy: 94.5%", 20, y); y += 10;
+      doc.text("Model: Random Forest", 20, y); y += 10;
+      doc.text("Features Analyzed:", 20, y); y += 10;
+
+      Object.entries(shap).forEach(([key, value]) => {
+        doc.text(`- ${key}: ${value.toFixed(2)}`, 25, y); y += 10;
+      });
+
+      doc.setFontSize(10);
+      doc.setTextColor(150);
+      doc.text("Disclaimer: This is not a medical diagnosis.", 20, y + 10);
+
+      doc.save("Diabetes_Risk_Report.pdf");
     }
-    </script>
+  </script>
+
 </body>
 </html>
