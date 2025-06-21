@@ -229,50 +229,53 @@
   <script id="shap-data" type="application/json">{{ shap_explanation | tojson }}</script>
 
   <script>
-    function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+    window.onload = () => {
+    window.jsPDF = window.jspdf.jsPDF;
+  };
 
-      const risk = document.body.dataset.risk;
-      const level = document.body.dataset.level;
+  function downloadPDF() {
+    const doc = new jsPDF();
 
-      const reasons = JSON.parse(document.getElementById('reasons-data').textContent);
-      const suggestions = JSON.parse(document.getElementById('suggestions-data').textContent);
-      const shap = JSON.parse(document.getElementById('shap-data').textContent);
+    const risk = document.body.dataset.risk;
+    const level = document.body.dataset.level;
 
-      doc.setFontSize(18);
-      doc.text("Diabetes Risk Assessment Report", 20, 20);
+    const reasons = JSON.parse(document.getElementById('reasons-data').textContent);
+    const suggestions = JSON.parse(document.getElementById('suggestions-data').textContent);
+    const shap = JSON.parse(document.getElementById('shap-data').textContent);
 
-      doc.setFontSize(14);
-      doc.text(`Risk Score: ${risk}% (${level} Risk)`, 20, 40);
+    doc.setFontSize(18);
+    doc.text("Diabetes Risk Assessment Report", 20, 20);
 
-      let y = 60;
-      doc.text("Key Risk Factors:", 20, y); y += 10;
-      reasons.forEach(reason => {
-        doc.text("- " + reason, 25, y); y += 10;
-      });
+    doc.setFontSize(14);
+    doc.text(`Risk Score: ${risk}% (${level} Risk)`, 20, 40);
 
-      y += 10;
-      doc.text("Recommendations:", 20, y); y += 10;
-      suggestions.forEach(suggestion => {
-        doc.text("- " + suggestion, 25, y); y += 10;
-      });
+    let y = 60;
+    doc.text("Key Risk Factors:", 20, y); y += 10;
+    reasons.forEach(reason => {
+      doc.text("- " + reason, 25, y); y += 10;
+    });
 
-      y += 10;
-      doc.text("Model Accuracy: 94.5%", 20, y); y += 10;
-      doc.text("Model: Random Forest", 20, y); y += 10;
-      doc.text("Features Analyzed:", 20, y); y += 10;
+    y += 10;
+    doc.text("Recommendations:", 20, y); y += 10;
+    suggestions.forEach(suggestion => {
+      doc.text("- " + suggestion, 25, y); y += 10;
+    });
 
-      Object.entries(shap).forEach(([key, value]) => {
-        doc.text(`- ${key}: ${value.toFixed(2)}`, 25, y); y += 10;
-      });
+    y += 10;
+    doc.text("Model Accuracy: 94.5%", 20, y); y += 10;
+    doc.text("Model: Random Forest", 20, y); y += 10;
+    doc.text("Features Analyzed:", 20, y); y += 10;
 
-      doc.setFontSize(10);
-      doc.setTextColor(150);
-      doc.text("Disclaimer: This is not a medical diagnosis.", 20, y + 10);
+    shap.forEach(([key, value]) => {
+      doc.text(`- ${key}: ${parseFloat(value).toFixed(2)}`, 25, y); y += 10;
+    });
 
-      doc.save("Diabetes_Risk_Report.pdf");
-    }
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text("Disclaimer: This is not a medical diagnosis.", 20, y + 10);
+
+    doc.save("Diabetes_Risk_Report.pdf");
+  }
   </script>
 
 </body>
