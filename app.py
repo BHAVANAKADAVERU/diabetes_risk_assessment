@@ -289,7 +289,7 @@ def try_assessment():
                               "Smoking", "Alcohol"]]
         prediction = classifier.predict(preprocessor.transform(input_df))[0]
         result = "High Risk" if prediction == 1 else "Low Risk"
-        return render_template('results.html', result=result)
+        return render_template('try_assess_results.html', result=result)
     return render_template('try_assessment.html')
 
 if __name__ == '__main__':
